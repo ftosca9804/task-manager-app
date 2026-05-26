@@ -52,19 +52,21 @@ export function TaskCard({ task, onTaskUpdate }) {
   };
 
   const priorityConfig = {
-    low: { color: '#48bb78', label: '🟢 Baja', bg: '#f0fff4' },
-    medium: { color: '#ed8936', label: '🟠 Media', bg: '#fffaf0' },
-    high: { color: '#f56565', label: '🔴 Alta', bg: '#fff5f5' }
+    low: { color: '#16a34a', label: 'Baja', bg: '#f0fdf4' },
+    medium: { color: '#d97706', label: 'Media', bg: '#fffbeb' },
+    high: { color: '#dc2626', label: 'Alta', bg: '#fef2f2' }
   };
 
   const statusConfig = {
-    pending: { label: '⏰ Pendiente', color: '#718096' },
-    'in-progress': { label: '🔄 En progreso', color: '#4299e1' },
-    completed: { label: '✅ Completada', color: '#48bb78' }
+    pending: { label: 'Pendiente', color: '#6b7280' },
+    'in-progress': { label: 'En progreso', color: '#2563eb' },
+    completed: { label: 'Completada', color: '#16a34a' }
   };
 
   const config = priorityConfig[task.priority];
   const status = statusConfig[task.status];
+
+  const assignedUserName = task.assignedTo?.name || task.assignedTo?.email || 'Sin asignar';
   const isAssignedToMe = task.assignedTo?._id === user?._id;
 
   return (
@@ -73,11 +75,14 @@ export function TaskCard({ task, onTaskUpdate }) {
       style={{
         ...style,
         background: 'white',
-        borderRadius: '12px',
+        borderRadius: '8px',
         padding: '20px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        boxShadow: isDragging ? '0 18px 35px rgba(15,23,42,0.12)' : '0 8px 24px rgba(15,23,42,0.06)',
         transition: 'all 0.3s ease',
         borderLeft: `4px solid ${config.color}`,
+        borderTop: '1px solid #e5e7eb',
+        borderRight: '1px solid #e5e7eb',
+        borderBottom: '1px solid #e5e7eb',
         position: 'relative'
       }}
       {...attributes}
@@ -91,7 +96,7 @@ export function TaskCard({ task, onTaskUpdate }) {
               padding: '4px 12px',
               borderRadius: '20px',
               fontSize: '12px',
-              fontWeight: '500',
+              fontWeight: '700',
               background: config.bg,
               color: config.color
             }}>
@@ -102,8 +107,8 @@ export function TaskCard({ task, onTaskUpdate }) {
               padding: '4px 12px',
               borderRadius: '20px',
               fontSize: '12px',
-              fontWeight: '500',
-              background: '#edf2f7',
+              fontWeight: '700',
+              background: '#f3f4f6',
               color: status.color
             }}>
               {status.label}
@@ -114,11 +119,24 @@ export function TaskCard({ task, onTaskUpdate }) {
                 padding: '4px 12px',
                 borderRadius: '20px',
                 fontSize: '12px',
-                fontWeight: '500',
-                background: isAssignedToMe ? '#e6f7e6' : '#fef3c7',
-                color: isAssignedToMe ? '#38a169' : '#d69e2e'
+                fontWeight: '700',
+                background: isAssignedToMe ? '#ecfdf5' : '#eff6ff',
+                color: isAssignedToMe ? '#047857' : '#1d4ed8'
               }}>
-                {isAssignedToMe ? '👤 Mía' : `👥 ${task.assignedTo.name}`}
+                {isAssignedToMe ? 'Mía' : assignedUserName}
+              </span>
+            )}
+            {!task.assignedTo && (
+              <span style={{
+                display: 'inline-block',
+                padding: '4px 12px',
+                borderRadius: '20px',
+                fontSize: '12px',
+                fontWeight: '700',
+                background: '#f3f4f6',
+                color: '#6b7280'
+              }}>
+                Sin asignar
               </span>
             )}
           </div>
@@ -143,14 +161,14 @@ export function TaskCard({ task, onTaskUpdate }) {
               style={{
                 padding: '6px 12px',
                 borderRadius: '8px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid #d1d5db',
                 fontSize: '13px',
                 cursor: 'pointer'
               }}
             >
-              <option value="low">🟢 Baja</option>
-              <option value="medium">🟠 Media</option>
-              <option value="high">🔴 Alta</option>
+              <option value="low">Baja</option>
+              <option value="medium">Media</option>
+              <option value="high">Alta</option>
             </select>
             <select
               value={task.status}
@@ -159,28 +177,28 @@ export function TaskCard({ task, onTaskUpdate }) {
               style={{
                 padding: '6px 12px',
                 borderRadius: '8px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid #d1d5db',
                 fontSize: '13px',
                 cursor: 'pointer'
               }}
             >
-              <option value="pending">⏰ Pendiente</option>
-              <option value="in-progress">🔄 En progreso</option>
-              <option value="completed">✅ Completada</option>
+              <option value="pending">Pendiente</option>
+              <option value="in-progress">En progreso</option>
+              <option value="completed">Completada</option>
             </select>
           </div>
         </div>
         <button
           onClick={deleteTask}
           style={{
-            background: 'linear-gradient(135deg, #f56565, #e53e3e)',
-            color: 'white',
-            border: 'none',
+            background: '#fff',
+            color: '#b91c1c',
+            border: '1px solid #fecaca',
             borderRadius: '8px',
             padding: '8px 16px',
             cursor: 'pointer',
             fontSize: '14px',
-            fontWeight: '500',
+            fontWeight: '700',
             transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}

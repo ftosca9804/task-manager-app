@@ -29,9 +29,6 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <div style={styles.iconContainer}>
-          <span style={styles.icon}>📋</span>
-        </div>
         <h1 style={styles.title}>Task Manager</h1>
         <p style={styles.subtitle}>Organiza tus tareas de manera eficiente</p>
         
@@ -41,7 +38,7 @@ function Login() {
           <div style={styles.inputGroup}>
             <input
               type="email"
-              placeholder="📧 Correo electrónico"
+              placeholder="Correo electrónico"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
@@ -51,7 +48,7 @@ function Login() {
           <div style={styles.inputGroup}>
             <input
               type="password"
-              placeholder="🔒 Contraseña"
+              placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
@@ -59,7 +56,7 @@ function Login() {
             />
           </div>
           <button type="submit" style={styles.button} disabled={loading}>
-            {loading ? 'Ingresando...' : '🚀 Iniciar Sesión'}
+            {loading ? 'Ingresando...' : 'Iniciar sesión'}
           </button>
         </form>
         
@@ -83,36 +80,25 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: '#f4f7fb',
     padding: '20px'
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(10px)',
+    backgroundColor: '#fff',
     padding: '50px',
-    borderRadius: '20px',
-    boxShadow: '0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb',
+    boxShadow: '0 20px 45px rgba(15,23,42,0.08)',
     width: '100%',
     maxWidth: '450px',
     transition: 'transform 0.3s ease',
     animation: 'fadeIn 0.5s ease-out'
   },
-  iconContainer: {
-    textAlign: 'center',
-    marginBottom: '20px'
-  },
-  icon: {
-    fontSize: '60px',
-    display: 'inline-block',
-    animation: 'pulse 2s infinite'
-  },
   title: {
     textAlign: 'center',
     fontSize: '32px',
-    fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
+    fontWeight: '800',
+    color: '#111827',
     marginBottom: '10px'
   },
   subtitle: {
@@ -127,8 +113,8 @@ const styles = {
   input: {
     width: '100%',
     padding: '14px 18px',
-    border: '2px solid #e0e0e0',
-    borderRadius: '12px',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
     fontSize: '16px',
     transition: 'all 0.3s ease',
     outline: 'none',
@@ -137,10 +123,10 @@ const styles = {
   button: {
     width: '100%',
     padding: '14px',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: '#111827',
     color: 'white',
     border: 'none',
-    borderRadius: '12px',
+    borderRadius: '8px',
     fontSize: '16px',
     fontWeight: 'bold',
     cursor: 'pointer',
@@ -178,7 +164,7 @@ const styles = {
     fontSize: '14px'
   },
   linkHighlight: {
-    color: '#667eea',
+    color: '#111827',
     textDecoration: 'none',
     fontWeight: 'bold'
   }

@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
+const getMemberId = (member) => member.user?._id || member.user;
+const getMemberName = (member) => (
+  member.displayName ||
+  member.user?.name ||
+  member.displayEmail ||
+  member.user?.email ||
+  'Pendiente de datos'
+);
+
 export function TaskForm({ onTaskCreated, currentProject }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -12,7 +21,7 @@ export function TaskForm({ onTaskCreated, currentProject }) {
   useEffect(() => {
     if (currentProject?.members) {
       setMembers(currentProject.members);
-      setAssignedTo(currentProject.members[0]?.user._id || '');
+      setAssignedTo(getMemberId(currentProject.members[0]) || '');
     }
   }, [currentProject]);
 
@@ -40,21 +49,15 @@ export function TaskForm({ onTaskCreated, currentProject }) {
     }
   };
 
-  const priorityEmojis = {
-    low: '🟢',
-    medium: '🟠',
-    high: '🔴'
-  };
-
   const priorityColors = {
-    low: '#48bb78',
-    medium: '#ed8936',
-    high: '#f56565'
+    low: '#16a34a',
+    medium: '#d97706',
+    high: '#dc2626'
   };
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>✨ Crear Nueva Tarea</h3>
+      <h3 style={styles.title}>Crear nueva tarea</h3>
       <form onSubmit={handleSubmit}>
         <div style={styles.inputGroup}>
           <input
@@ -88,10 +91,10 @@ export function TaskForm({ onTaskCreated, currentProject }) {
                     ...styles.priorityBtn,
                     background: priority === p ? priorityColors[p] : '#f7fafc',
                     color: priority === p ? 'white' : '#4a5568',
-                    border: priority === p ? 'none' : '1px solid #e2e8f0'
+                    border: priority === p ? `1px solid ${priorityColors[p]}` : '1px solid #d1d5db'
                   }}
                 >
-                  {priorityEmojis[p]} {p === 'low' ? 'Baja' : p === 'medium' ? 'Media' : 'Alta'}
+                  {p === 'low' ? 'Baja' : p === 'medium' ? 'Media' : 'Alta'}
                 </button>
               ))}
             </div>
@@ -104,11 +107,15 @@ export function TaskForm({ onTaskCreated, currentProject }) {
               onChange={(e) => setAssignedTo(e.target.value)}
               style={styles.assignSelect}
             >
-              {members.map(member => (
-                <option key={member.user._id} value={member.user._id}>
-                  👤 {member.user.name}
-                </option>
-              ))}
+              {members.map(member => {
+                const memberId = getMemberId(member);
+
+                return (
+                  <option key={memberId} value={memberId}>
+                    {getMemberName(member)}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -123,17 +130,17 @@ export function TaskForm({ onTaskCreated, currentProject }) {
 
 const styles = {
   container: {
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(10px)',
-    borderRadius: '20px',
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
     padding: '25px',
-    marginBottom: '30px',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+    marginBottom: '24px',
+    boxShadow: '0 10px 25px rgba(15, 23, 42, 0.06)'
   },
   title: {
     margin: '0 0 20px 0',
     fontSize: '20px',
-    color: '#2d3748'
+    color: '#111827'
   },
   inputGroup: {
     marginBottom: '15px'
@@ -141,8 +148,8 @@ const styles = {
   input: {
     width: '100%',
     padding: '12px 16px',
-    border: '2px solid #e2e8f0',
-    borderRadius: '10px',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
     fontSize: '16px',
     transition: 'all 0.3s ease',
     outline: 'none'
@@ -150,8 +157,8 @@ const styles = {
   textarea: {
     width: '100%',
     padding: '12px 16px',
-    border: '2px solid #e2e8f0',
-    borderRadius: '10px',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
     fontSize: '14px',
     fontFamily: 'inherit',
     transition: 'all 0.3s ease',
@@ -193,16 +200,16 @@ const styles = {
     width: '100%',
     padding: '8px 12px',
     borderRadius: '8px',
-    border: '1px solid #e2e8f0',
+    border: '1px solid #d1d5db',
     fontSize: '14px'
   },
   submitBtn: {
     width: '100%',
     padding: '12px',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+    background: '#111827',
     color: 'white',
     border: 'none',
-    borderRadius: '10px',
+    borderRadius: '8px',
     fontSize: '16px',
     fontWeight: 'bold',
     cursor: 'pointer',

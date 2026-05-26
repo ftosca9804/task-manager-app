@@ -25,7 +25,7 @@ function Register() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>📋 Task Manager</h1>
+        <h1 style={styles.title}>Task Manager</h1>
         <h2 style={styles.subtitle}>Registro</h2>
         {error && <div style={styles.error}>{error}</div>}
         <form onSubmit={handleSubmit}>
@@ -69,19 +69,24 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    background: '#f4f7fb',
+    padding: '20px'
   },
   card: {
     backgroundColor: 'white',
-    padding: '40px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+    padding: '50px',
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb',
+    boxShadow: '0 20px 45px rgba(15,23,42,0.08)',
     width: '100%',
-    maxWidth: '400px'
+    maxWidth: '450px'
   },
   title: {
     textAlign: 'center',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    fontSize: '32px',
+    fontWeight: '800',
+    color: '#111827'
   },
   subtitle: {
     textAlign: 'center',
@@ -92,17 +97,17 @@ const styles = {
     width: '100%',
     padding: '12px',
     marginBottom: '15px',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
     fontSize: '16px'
   },
   button: {
     width: '100%',
     padding: '12px',
-    backgroundColor: '#667eea',
+    backgroundColor: '#111827',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '8px',
     fontSize: '16px',
     cursor: 'pointer'
   },

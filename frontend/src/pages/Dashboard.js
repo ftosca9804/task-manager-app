@@ -101,7 +101,6 @@ function Dashboard() {
         <div style={styles.header}>
           <div style={styles.headerContent}>
             <div style={styles.logoSection}>
-              <span style={styles.logoIcon}>📋</span>
               <h1 style={styles.logoText}>TaskFlow</h1>
             </div>
             <div style={styles.userSection}>
@@ -110,7 +109,7 @@ function Dashboard() {
                 <span style={styles.userName}>{user?.name}</span>
               </div>
               <button onClick={logout} style={styles.logoutBtn}>
-                <span>🚪</span> Salir
+                Salir
               </button>
             </div>
           </div>
@@ -118,7 +117,6 @@ function Dashboard() {
         <div style={styles.content}>
           <ProjectSelector currentProject={currentProject} onProjectChange={setCurrentProject} />
           <div style={styles.emptyState}>
-            <span style={styles.emptyIcon}>📁</span>
             <h3>Selecciona o crea un proyecto</h3>
             <p>Comienza creando un proyecto para ti o tu equipo</p>
           </div>
@@ -132,7 +130,6 @@ function Dashboard() {
       <div style={styles.header}>
         <div style={styles.headerContent}>
           <div style={styles.logoSection}>
-            <span style={styles.logoIcon}>📋</span>
             <h1 style={styles.logoText}>TaskFlow</h1>
           </div>
           <div style={styles.userSection}>
@@ -141,7 +138,7 @@ function Dashboard() {
               <span style={styles.userName}>{user?.name}</span>
             </div>
             <button onClick={logout} style={styles.logoutBtn}>
-              <span>🚪</span> Salir
+              Salir
             </button>
           </div>
         </div>
@@ -151,22 +148,19 @@ function Dashboard() {
         <ProjectSelector currentProject={currentProject} onProjectChange={setCurrentProject} />
 
         <div style={styles.statsContainer}>
-          <div style={{...styles.statCard, background: 'linear-gradient(135deg, #667eea, #764ba2)'}}>
-            <div style={styles.statIcon}>📊</div>
+          <div style={{...styles.statCard, borderTopColor: '#2563eb'}}>
             <div style={styles.statInfo}>
               <div style={styles.statNumber}>{stats.total}</div>
               <div style={styles.statLabel}>Total Tareas</div>
             </div>
           </div>
-          <div style={{...styles.statCard, background: 'linear-gradient(135deg, #48bb78, #38a169)'}}>
-            <div style={styles.statIcon}>✅</div>
+          <div style={{...styles.statCard, borderTopColor: '#16a34a'}}>
             <div style={styles.statInfo}>
               <div style={styles.statNumber}>{stats.completed}</div>
               <div style={styles.statLabel}>Completadas</div>
             </div>
           </div>
-          <div style={{...styles.statCard, background: 'linear-gradient(135deg, #ed8936, #dd6b20)'}}>
-            <div style={styles.statIcon}>⏳</div>
+          <div style={{...styles.statCard, borderTopColor: '#f59e0b'}}>
             <div style={styles.statInfo}>
               <div style={styles.statNumber}>{stats.pending}</div>
               <div style={styles.statLabel}>Pendientes</div>
@@ -176,20 +170,20 @@ function Dashboard() {
 
         <div style={styles.filterBar}>
           <div style={styles.filterGroup}>
-            <span style={styles.filterLabel}>🔍 Filtrar por:</span>
+            <span style={styles.filterLabel}>Estado</span>
             <select 
               value={filter} 
               onChange={(e) => setFilter(e.target.value)}
               style={styles.filterSelect}
             >
-              <option value="all">📋 Todas las tareas</option>
-              <option value="pending">⏰ Pendientes</option>
-              <option value="in-progress">🔄 En progreso</option>
-              <option value="completed">✅ Completadas</option>
+              <option value="all">Todas las tareas</option>
+              <option value="pending">Pendientes</option>
+              <option value="in-progress">En progreso</option>
+              <option value="completed">Completadas</option>
             </select>
           </div>
           <div style={styles.filterGroup}>
-            <span style={styles.filterLabel}>👥 Asignadas a:</span>
+            <span style={styles.filterLabel}>Asignadas a</span>
             <select 
               value={assignedFilter} 
               onChange={(e) => setAssignedFilter(e.target.value)}
@@ -221,7 +215,6 @@ function Dashboard() {
               <div style={styles.tasksGrid}>
                 {filteredTasks.length === 0 ? (
                   <div style={styles.emptyState}>
-                    <span style={styles.emptyIcon}>🎯</span>
                     <p>¡No hay tareas! Crea una nueva arriba</p>
                   </div>
                 ) : (
@@ -241,12 +234,12 @@ function Dashboard() {
 const styles = {
   container: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: '#f4f7fb',
   },
   header: {
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(10px)',
-    boxShadow: '0 2px 20px rgba(0,0,0,0.1)',
+    background: 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(16px)',
+    borderBottom: '1px solid #e5e7eb',
     position: 'sticky',
     top: 0,
     zIndex: 1000
@@ -254,7 +247,7 @@ const styles = {
   headerContent: {
     maxWidth: '1400px',
     margin: '0 auto',
-    padding: '20px',
+    padding: '16px 24px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -264,15 +257,11 @@ const styles = {
     alignItems: 'center',
     gap: '10px'
   },
-  logoIcon: {
-    fontSize: '32px'
-  },
   logoText: {
     fontSize: '24px',
-    fontWeight: 'bold',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
+    fontWeight: '800',
+    color: '#111827',
+    letterSpacing: '0'
   },
   userSection: {
     display: 'flex',
@@ -287,8 +276,8 @@ const styles = {
   userAvatar: {
     width: '40px',
     height: '40px',
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+    borderRadius: '12px',
+    background: '#111827',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -298,62 +287,56 @@ const styles = {
   },
   userName: {
     fontWeight: '500',
-    color: '#333'
+    color: '#374151'
   },
   logoutBtn: {
-    background: 'linear-gradient(135deg, #f56565, #e53e3e)',
-    color: 'white',
-    border: 'none',
+    background: '#fff',
+    color: '#b91c1c',
+    border: '1px solid #fecaca',
     padding: '8px 20px',
-    borderRadius: '10px',
+    borderRadius: '8px',
     cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    fontWeight: '500'
+    fontWeight: '600'
   },
   content: {
     maxWidth: '1400px',
     margin: '0 auto',
-    padding: '40px 20px'
+    padding: '32px 24px'
   },
   statsContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
     gap: '20px',
-    marginBottom: '40px'
+    marginBottom: '24px'
   },
   statCard: {
     background: 'white',
-    borderRadius: '20px',
-    padding: '25px',
+    borderRadius: '8px',
+    padding: '22px',
     display: 'flex',
     alignItems: 'center',
-    gap: '20px',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-    transition: 'transform 0.3s ease'
-  },
-  statIcon: {
-    fontSize: '40px'
+    border: '1px solid #e5e7eb',
+    borderTop: '4px solid #2563eb',
+    boxShadow: '0 10px 25px rgba(15, 23, 42, 0.06)'
   },
   statInfo: {
     flex: 1
   },
   statNumber: {
     fontSize: '32px',
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: '800',
+    color: '#111827'
   },
   statLabel: {
-    color: 'rgba(255,255,255,0.9)',
+    color: '#6b7280',
     fontSize: '14px'
   },
   filterBar: {
-    background: 'rgba(255,255,255,0.2)',
-    backdropFilter: 'blur(10px)',
-    borderRadius: '15px',
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
     padding: '15px 20px',
-    marginBottom: '30px',
+    marginBottom: '24px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -366,28 +349,29 @@ const styles = {
     gap: '15px'
   },
   filterLabel: {
-    color: 'white',
-    fontWeight: '500'
+    color: '#4b5563',
+    fontWeight: '600',
+    fontSize: '14px'
   },
   filterSelect: {
     padding: '10px 15px',
-    borderRadius: '10px',
-    border: 'none',
-    background: 'white',
+    borderRadius: '8px',
+    border: '1px solid #d1d5db',
+    background: '#fff',
     cursor: 'pointer'
   },
   taskCount: {
-    color: 'white',
+    color: '#374151',
     fontSize: '14px',
-    background: 'rgba(255,255,255,0.2)',
+    background: '#f3f4f6',
     padding: '5px 15px',
-    borderRadius: '20px'
+    borderRadius: '999px'
   },
   tasksSection: {
     marginTop: '20px'
   },
   sectionTitle: {
-    color: 'white',
+    color: '#111827',
     fontSize: '20px',
     marginBottom: '20px',
     fontWeight: '600'
@@ -399,16 +383,11 @@ const styles = {
   },
   emptyState: {
     textAlign: 'center',
-    padding: '60px',
-    background: 'rgba(255,255,255,0.1)',
-    borderRadius: '20px',
-    backdropFilter: 'blur(10px)',
-    color: 'white'
-  },
-  emptyIcon: {
-    fontSize: '60px',
-    display: 'block',
-    marginBottom: '20px'
+    padding: '48px',
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    color: '#4b5563'
   }
 };
 

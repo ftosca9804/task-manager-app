@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
+const getMemberId = (member) => member.user?._id || member.user;
+const getMemberName = (member) => (
+  member.displayName ||
+  member.user?.name ||
+  member.displayEmail ||
+  member.user?.email ||
+  'Pendiente de datos'
+);
+
 function ProjectSelector({ currentProject, onProjectChange }) {
   const [projects, setProjects] = useState([]);
   const [showNewProject, setShowNewProject] = useState(false);
@@ -15,7 +24,12 @@ function ProjectSelector({ currentProject, onProjectChange }) {
     try {
       const response = await api.get('/projects');
       setProjects(response.data);
-      if (response.data.length > 0 && !currentProject) {
+      if (currentProject) {
+        const updatedCurrentProject = response.data.find(project => project._id === currentProject._id);
+        if (updatedCurrentProject) {
+          onProjectChange(updatedCurrentProject);
+        }
+      } else if (response.data.length > 0) {
         onProjectChange(response.data[0]);
       }
     } catch (error) {
@@ -42,21 +56,25 @@ function ProjectSelector({ currentProject, onProjectChange }) {
 
   const inviteMember = async (email, projectId) => {
     try {
-      await api.post('/projects/add-member', {
+      const response = await api.post('/projects/add-member', {
         projectId,
         email,
         role: 'member'
       });
+      const updatedProject = response.data.project;
+      setProjects(projects.map(project => (
+        project._id === updatedProject._id ? updatedProject : project
+      )));
+      onProjectChange(updatedProject);
       alert('Invitación enviada');
     } catch (error) {
-      alert('Error al invitar usuario');
+      alert(error.response?.data?.message || 'Error al invitar usuario');
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <span style={styles.icon}>📁</span>
         <select
           value={currentProject?._id || ''}
           onChange={(e) => {
@@ -110,11 +128,11 @@ function ProjectSelector({ currentProject, onProjectChange }) {
             <div style={styles.projectDesc}>{currentProject.description}</div>
           )}
           <details style={styles.details}>
-            <summary style={styles.summary}>👥 Miembros del equipo</summary>
+            <summary style={styles.summary}>Miembros del equipo</summary>
             <div style={styles.membersList}>
               {currentProject.members?.map(member => (
-                <div key={member.user._id} style={styles.member}>
-                  <span>👤 {member.user.name}</span>
+                <div key={getMemberId(member)} style={styles.member}>
+                  <span>{getMemberName(member)}</span>
                   <span style={styles.roleBadge}>{member.role}</span>
                 </div>
               ))}
@@ -145,46 +163,45 @@ function ProjectSelector({ currentProject, onProjectChange }) {
 
 const styles = {
   container: {
-    background: 'rgba(255,255,255,0.95)',
-    borderRadius: '15px',
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
     padding: '20px',
     marginBottom: '20px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    boxShadow: '0 10px 25px rgba(15, 23, 42, 0.06)'
   },
   header: {
     display: 'flex',
     gap: '10px',
     alignItems: 'center'
   },
-  icon: {
-    fontSize: '24px'
-  },
   select: {
     flex: 1,
     padding: '10px',
-    borderRadius: '10px',
-    border: '1px solid #e2e8f0',
+    borderRadius: '8px',
+    border: '1px solid #d1d5db',
     fontSize: '16px'
   },
   addBtn: {
     padding: '10px 20px',
-    background: 'linear-gradient(135deg, #48bb78, #38a169)',
+    background: '#111827',
     color: 'white',
     border: 'none',
-    borderRadius: '10px',
+    borderRadius: '8px',
     cursor: 'pointer'
   },
   form: {
     marginTop: '15px',
     padding: '15px',
-    background: '#f7fafc',
-    borderRadius: '10px'
+    background: '#f9fafb',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px'
   },
   input: {
     width: '100%',
     padding: '10px',
     marginBottom: '10px',
-    border: '1px solid #e2e8f0',
+    border: '1px solid #d1d5db',
     borderRadius: '8px'
   },
   formButtons: {
@@ -193,7 +210,7 @@ const styles = {
   },
   submitBtn: {
     padding: '8px 16px',
-    background: '#667eea',
+    background: '#111827',
     color: 'white',
     border: 'none',
     borderRadius: '8px',
@@ -201,8 +218,8 @@ const styles = {
   },
   cancelBtn: {
     padding: '8px 16px',
-    background: '#cbd5e0',
-    color: '#4a5568',
+    background: '#f3f4f6',
+    color: '#374151',
     border: 'none',
     borderRadius: '8px',
     cursor: 'pointer'
@@ -210,7 +227,7 @@ const styles = {
   projectInfo: {
     marginTop: '15px',
     paddingTop: '15px',
-    borderTop: '1px solid #e2e8f0'
+    borderTop: '1px solid #e5e7eb'
   },
   projectName: {
     fontWeight: 'bold',
@@ -227,13 +244,13 @@ const styles = {
   },
   summary: {
     cursor: 'pointer',
-    color: '#667eea',
+    color: '#111827',
     fontWeight: '500'
   },
   membersList: {
     marginTop: '10px',
     padding: '10px',
-    background: '#f7fafc',
+    background: '#f9fafb',
     borderRadius: '8px'
   },
   member: {
@@ -241,12 +258,12 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '5px 0',
-    borderBottom: '1px solid #e2e8f0'
+    borderBottom: '1px solid #e5e7eb'
   },
   roleBadge: {
     fontSize: '12px',
     padding: '2px 8px',
-    background: '#e2e8f0',
+    background: '#e5e7eb',
     borderRadius: '20px'
   },
   inviteSection: {
@@ -257,12 +274,12 @@ const styles = {
   inviteInput: {
     flex: 1,
     padding: '8px',
-    border: '1px solid #e2e8f0',
+    border: '1px solid #d1d5db',
     borderRadius: '8px'
   },
   inviteBtn: {
     padding: '8px 16px',
-    background: '#4299e1',
+    background: '#2563eb',
     color: 'white',
     border: 'none',
     borderRadius: '8px',
